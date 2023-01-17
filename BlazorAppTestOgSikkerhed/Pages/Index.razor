@@ -27,7 +27,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // This code will make User admin
+        // This code will make User admin or other roles
+        // Set brake point, uncomment this line, run application. User is now has the provided role.
         //await _myRoleHandler.CreateUserRoles("test@testMail.com", "Admin", _iServiceProvider);
 
         var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
