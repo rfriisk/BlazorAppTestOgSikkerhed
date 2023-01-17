@@ -15,7 +15,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>() // Remeber to add this when adding Admin role
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -26,6 +28,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequiredAuthenticatedUser", policy =>
     {
         policy.RequireAuthenticatedUser();
+    });
+    options.AddPolicy("RequiredAdministratorRole", policy =>
+    {
+        policy.RequireRole("Admin");
     });
 });
 
