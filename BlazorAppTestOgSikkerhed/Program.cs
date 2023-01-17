@@ -1,4 +1,5 @@
 using BlazorAppTestOgSikkerhed.Areas.Identity;
+using BlazorAppTestOgSikkerhed.Code;
 using BlazorAppTestOgSikkerhed.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -34,6 +35,8 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("Admin");
     });
 });
+
+builder.Services.AddSingleton<MyRoleHandler>();
 
 var app = builder.Build();
 

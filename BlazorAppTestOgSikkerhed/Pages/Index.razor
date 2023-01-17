@@ -1,7 +1,47 @@
-﻿@page "/"
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject AuthenticationStateProvider _authenticationStateProvider;
+@inject BlazorAppTestOgSikkerhed.Code.MyRoleHandler _myRoleHandler;
+@inject IServiceProvider _iServiceProvider;
+
+@page "/"
 
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
+@if (IsAuthenticated)
+{
+    <h3>Du er logget ind.</h3>
+    @if (IsAdmin)
+    {
+        <h3>Du er Admin</h3>
+    }
+}
 
+@*// On load event*@
+@code {
+    public bool IsAuthenticated { get; set; }
+    public bool IsAdmin { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        // This code will make User admin
+        //await _myRoleHandler.CreateUserRoles("test@testMail.com", "Admin", _iServiceProvider);
+
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        IsAuthenticated = user.Identity != null ? user.Identity.IsAuthenticated : false;
+        IsAdmin = user.IsInRole("Admin");
+
+        // Ovenstående komprimeret af denne kode!
+        //if (user.Identity != null)
+        //{
+        //    IsAuthenticated = user.Identity.IsAuthenticated;
+        //}
+    }
+
+    
+}
