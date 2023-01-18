@@ -37,6 +37,8 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddSingleton<MyRoleHandler>();
+builder.Services.AddSingleton<MyResourceHandler>();
+
 
 var app = builder.Build();
 

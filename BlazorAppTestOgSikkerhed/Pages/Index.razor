@@ -1,10 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @inject AuthenticationStateProvider _authenticationStateProvider;
 @inject BlazorAppTestOgSikkerhed.Code.MyRoleHandler _myRoleHandler;
 @inject IServiceProvider _iServiceProvider;
+@inject BlazorAppTestOgSikkerhed.Code.MyResourceHandler _myResourceHandler;
 
 @page "/"
 
@@ -22,6 +20,7 @@
 
 @*// On load event*@
 @code {
+
     public bool IsAuthenticated { get; set; }
     public bool IsAdmin { get; set; }
 
