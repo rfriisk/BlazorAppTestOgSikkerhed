@@ -15,7 +15,9 @@
     @if (IsAdmin)
     {
         <h3>Du er Admin</h3>
+
     }
+    <button class="btn btn-primary" @onclick="Make">Make a file!</button>
 }
 
 @*// On load event*@
@@ -41,7 +43,19 @@
         //{
         //    IsAuthenticated = user.Identity.IsAuthenticated;
         //}
+
     }
 
-    
+    public void Make()
+    {
+        if (!File.Exists("BlazorAppTest.txt"))
+        {
+            var testFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string folderPath = Path.Combine(testFolder, "BlazorAppTest.txt"); // Opretter en fil cross platform (Path.Combine)
+            File.CreateText(folderPath);            
+        }
+
+    }
+
+
 }
