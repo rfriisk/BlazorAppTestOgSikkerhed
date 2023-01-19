@@ -22,14 +22,14 @@ public class IndexComponentTest
     {
         // Arrange
         using var context = new TestContext(); // Laver en "sandkasse" af projektet og smider det ud bagefter
-        context.Services.AddSingleton<MyRoleHandler>(new MyRoleHandler());
-        context.Services.AddSingleton<MyResourceHandler>(new MyResourceHandler());
-        context.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+        context.Services.AddSingleton(new MyRoleHandler()); //Tilføj custom services til tildeling af admin
+        context.Services.AddSingleton(new MyResourceHandler());
+        context.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>(); //Tilføj identity service til validering af authenticated users
         
 
         var authorizationContext = context.AddTestAuthorization();
-        authorizationContext.SetAuthorized("test@testMail.com");
-        authorizationContext.SetRoles("Admin");
+        authorizationContext.SetAuthorized("test@testMail.com");   
+        authorizationContext.SetRoles("Admin");           
 
         // Act
         var index = context.RenderComponent<BlazorAppTestOgSikkerhed.Pages.Index>();
