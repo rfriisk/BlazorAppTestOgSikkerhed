@@ -20,10 +20,10 @@ public class HTMLTest {
         // Arrange
         using var context = new TestContext(); // Laver en "sandkasse" af projektet og smider det ud bagefter
         context.Services.AddSingleton(new MyRoleHandler()); // Tilføj custom services til håndtering af autorisation og roller
-        context.Services.AddSingleton(new MyResourceHandler());
-        context.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>(); //Tilføj identity service til validering af authenticated users
+        context.Services.AddScoped<AuthenticationStateProvider, 
+            RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>(); //Tilføj identity service til validering af authenticated users
 
-        var authorizationContext = context.AddTestAuthorization(); //  Opret ny context
+        var authorizationContext = context.AddTestAuthorization(); //  Opret ny context med Test autorisation
         authorizationContext.SetAuthorized("test@testMail.com");    // Opret ny autoriseret bruger
 
         // Act
@@ -54,9 +54,15 @@ public class HTMLTest {
         var index = context.RenderComponent<BlazorAppTestOgSikkerhed.Pages.Index>();
 
         // Assert (Tjek at HTML vises)
-        index.MarkupMatches(@"    <h1>Hello, world!</h1>
-                                <h3>Du er logget ind.</h3>
-                                <button class=""btn btn-primary"" >Make a file!</button>");
+        index.MarkupMatches(@"        <h1>Hello, world!</h1>
+                                        <h3>Du er logget ind.</h3>
+                                        <p>
+                                          <label>Name the text file
+                                            <input value=""Text"" >
+                                          </label>
+                                        </p>
+                                        <button class=""btn btn-primary"" >Create</button>
+                                        <p></p>");
 
     }
     

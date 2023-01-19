@@ -17,11 +17,18 @@
         <h3>Du er Admin</h3>
 
     }
-    <button class="btn btn-primary" @onclick="Make">Make a file!</button>
+    <p><label>Name the text file
+            <input @bind="FileName" @bind:event="oninput" />
+    </label>
+    </p>
+    <button class="btn btn-primary" @onclick="MakeFile">Create</button>
+    <p>@($"{this.Message}")</p>
+
 }
 
 @*// On load event*@
 @code {
+
 
     public bool IsAuthenticated { get; set; }
     public bool IsAdmin { get; set; }
@@ -46,15 +53,24 @@
 
     }
 
-    public void Make()
-    {
-        if (!File.Exists("BlazorAppTest.txt"))
-        {
-            var testFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            string folderPath = Path.Combine(testFolder, "BlazorAppTest.txt"); // Opretter en fil cross platform (Path.Combine)
-            File.CreateText(folderPath);            
-        }
+    // Add properties for input field:
+    private string? FileName { get; set; } = "Text";
+    private string? Message { get; set; }
 
+    public void MakeFile()
+    {
+        try {
+            if (FileName != null && !File.Exists($"{FileName}.txt")) {
+
+                var testFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string folderPath = Path.Combine(testFolder, $"{FileName}.txt"); // Opretter en fil cross platform (Path.Combine)
+                File.CreateText(folderPath);
+            }
+            Message = "The file was created";
+
+        } catch (Exception) {
+            Message = "Your file could not be created";
+        }
     }
 
 
