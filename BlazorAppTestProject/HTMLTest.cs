@@ -45,7 +45,8 @@ public class HTMLTest {
         using var context = new TestContext(); // Laver en "sandkasse" af projektet og smider det ud bagefter
         context.Services.AddSingleton(new MyRoleHandler()); // Tilføj custom services til håndtering af autorisation og roller
         context.Services.AddSingleton(new MyResourceHandler());
-        context.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>(); //Tilføj identity service til validering af authenticated users
+        context.Services.AddScoped<AuthenticationStateProvider, 
+            RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>(); //Tilføj identity service til validering af authenticated users
 
         var authorizationContext = context.AddTestAuthorization(); //  Opret ny context
         authorizationContext.SetAuthorized("test@testMail.com");    // Opret ny autoriseret bruger
