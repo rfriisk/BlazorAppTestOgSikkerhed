@@ -1,8 +1,12 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using BlazorAppTestOgSikkerhed.Services;
+@using Microsoft.AspNetCore.Identity
+@using BlazorAppTestOgSikkerhed.Models;
 @inject AuthenticationStateProvider _authenticationStateProvider;
 @inject BlazorAppTestOgSikkerhed.Code.MyRoleHandler _myRoleHandler;
 @inject IServiceProvider _iServiceProvider;
 @inject BlazorAppTestOgSikkerhed.Code.MyResourceHandler _myResourceHandler;
+@inject IUserService Userservice;
+@inject NavigationManager NavigationManager;
 
 @page "/"
 
@@ -16,8 +20,36 @@
     {
         <h3>Du er Admin</h3>
 
+        <div class="row">
+            <div class="col-10">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Users</th>
+                            @*<th>Admin</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        @foreach (var user in Users)
+                        {
+                           @*<th scope="row">@user.</th>*@
+                                <td>@user.UserName</td>
+                        }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
     }
-    <button class="btn btn-primary" @onclick="Make">Make a file!</button>
+    <br />
+
+}
+<button class="btn btn-primary" @onclick="Make">Make a file</button>
+
 }
 
 @*// On load event*@
@@ -25,6 +57,8 @@
 
     public bool IsAuthenticated { get; set; }
     public bool IsAdmin { get; set; }
+
+    List<Users> Users = new List<Users>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,6 +78,8 @@
         //    IsAuthenticated = user.Identity.IsAuthenticated;
         //}
 
+        Users = Userservice.List();
+
     }
 
     public void Make()
@@ -52,10 +88,11 @@
         {
             var testFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string folderPath = Path.Combine(testFolder, "BlazorAppTest.txt"); // Opretter en fil cross platform (Path.Combine)
-            File.CreateText(folderPath);            
+            File.CreateText(folderPath);
         }
 
     }
+
 
 
 }

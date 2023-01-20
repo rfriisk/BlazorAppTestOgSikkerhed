@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BlazorAppTestOgSikkerhed.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAppTestOgSikkerhed.Data
@@ -9,5 +10,7 @@ namespace BlazorAppTestOgSikkerhed.Data
             : base(options)
         {
         }
+
+        public DbSet<Users> Users { get; set; }
     }
 }
